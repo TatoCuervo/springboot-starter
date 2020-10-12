@@ -1,9 +1,9 @@
 package com.tatocuervo.springbootstarter.routes;
 
 public class Routes {
-    public static final String TOPICS = "/topics";
+    public static final String TOPIC = "/topic";
 
-    public static final String COURSES = "/courses";
+    public static final String COURSE = "/topic/{topicId}/course";
 
-    public static final String LESSONS = "/lessons";
+    public static final String LESSON = "/topic/{topicId}/course/{courseId}/lesson";
 }

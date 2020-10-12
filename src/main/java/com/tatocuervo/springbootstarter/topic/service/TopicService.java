@@ -1,54 +1,32 @@
 package com.tatocuervo.springbootstarter.topic.service;
 
 import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
-import com.tatocuervo.springbootstarter.topic.domain.Topic;
+import com.tatocuervo.springbootstarter.common.model.Topic;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.String.format;
 
 @Service
 public class TopicService {
-    private List<Topic> topics = new ArrayList<>(List.of(Topic.builder()
-            .id("1")
-            .name("First Topic")
-            .description("Description")
-            .build(), Topic.builder().id("2").name("Second Topic").description("Description")
-            .build(), Topic.builder().id("3").name("Third Topic").description("Description")
-            .build(), Topic.builder().id("4").name("Fourth Topic").description("Description")
-            .build(), Topic.builder().id("5").name("Fifth Topic").description("Description")
-            .build()));
+    //TODO: setup PostgreSQL to perform CRUD operations instead
 
     public List<Topic> getAllTopics() {
-        return topics;
+        return null;
     }
 
     public Topic getTopicById(String Id) throws ResourceNotFoundException {
-        return topics.stream()
-                .filter(topic -> topic.getId().equals(Id))
-                .findFirst().orElseThrow(() -> new ResourceNotFoundException(format("Topic with id %s does not exists", Id)));
+        return null;
     }
 
     public void addTopic(Topic topic) {
-        //TODO: validate provided topic ID does not already exists
-        topics.add(topic);
+
     }
 
     public void updateTopic(Topic updatedTopic) {
-        //TODO: validate if not found
-        for (int i = 0; i < topics.size(); i++) {
-            Topic temp = topics.get(i);
-            if (temp.getId().equalsIgnoreCase(updatedTopic.getId())) {
-                topics.set(i, updatedTopic);
-                return;
-            }
-        }
+
     }
 
     public void deleteTopicById(String id) {
-        //TODO: validate if not found
-        topics.removeIf(topic -> topic.getId().equalsIgnoreCase(id));
+        //topics.removeIf(topic -> topic.getId().equalsIgnoreCase(id));
     }
 }

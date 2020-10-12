@@ -2,7 +2,7 @@ package com.tatocuervo.springbootstarter.topic.controller;
 
 import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
 import com.tatocuervo.springbootstarter.routes.Routes;
-import com.tatocuervo.springbootstarter.topic.domain.Topic;
+import com.tatocuervo.springbootstarter.common.model.Topic;
 import com.tatocuervo.springbootstarter.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(Routes.TOPICS)
+@RequestMapping(Routes.TOPIC)
 public class TopicController {
 
     @Autowired
