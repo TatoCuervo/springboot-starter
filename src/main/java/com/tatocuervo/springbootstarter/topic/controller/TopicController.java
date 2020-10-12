@@ -1,5 +1,6 @@
 package com.tatocuervo.springbootstarter.topic.controller;
 
+import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
 import com.tatocuervo.springbootstarter.routes.Routes;
 import com.tatocuervo.springbootstarter.topic.domain.Topic;
 import com.tatocuervo.springbootstarter.topic.service.TopicService;
@@ -23,7 +24,7 @@ public class TopicController {
 
 
     @GetMapping("/{id}")
-    public Topic getTopic(@PathVariable String id) {
+    public Topic getTopic(@PathVariable String id) throws ResourceNotFoundException {
         return topicService.getTopicById(id);
     }
 

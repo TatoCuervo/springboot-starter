@@ -1,10 +1,13 @@
 package com.tatocuervo.springbootstarter.topic.service;
 
+import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
 import com.tatocuervo.springbootstarter.topic.domain.Topic;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Service
 public class TopicService {
@@ -22,11 +25,10 @@ public class TopicService {
         return topics;
     }
 
-    public Topic getTopicById(String Id) {
-        //TODO: validate topic does not exists
+    public Topic getTopicById(String Id) throws ResourceNotFoundException {
         return topics.stream()
                 .filter(topic -> topic.getId().equals(Id))
-                .findFirst().orElse(null);
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException(format("Topic with id %s does not exists", Id)));
     }
 
     public void addTopic(Topic topic) {
