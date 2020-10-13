@@ -20,7 +20,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public void addCourse(@RequestBody Course course) {
+    public void addCourse(@PathVariable String topicId, @RequestBody Course course) {
 
     }
 
