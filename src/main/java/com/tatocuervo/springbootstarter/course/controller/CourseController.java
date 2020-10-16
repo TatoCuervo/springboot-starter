@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(Routes.COURSE)
+@RestController(Routes.COURSES)
 public class CourseController {
 
     @GetMapping

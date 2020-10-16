@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(Routes.TOPIC)
+@RequestMapping(Routes.TOPICS)
 public class TopicController {
 
     @Autowired
@@ -23,9 +23,9 @@ public class TopicController {
     }
 
 
-    @GetMapping("/{id}")
-    public Topic getTopic(@PathVariable String id) throws ResourceNotFoundException {
-        return topicService.getTopicById(id);
+    @GetMapping("/{name}")
+    public Topic getTopic(@PathVariable String name) throws ResourceNotFoundException {
+        return topicService.getTopicByName(name);
     }
 
 
@@ -43,9 +43,9 @@ public class TopicController {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/{Id}")
-    public void deleteTopic(@PathVariable String Id) {
-        topicService.deleteTopicById(Id);
+    @DeleteMapping("/{name}")
+    public void deleteTopic(@PathVariable String name) {
+        topicService.deleteTopicByName(name);
     }
 
 }
