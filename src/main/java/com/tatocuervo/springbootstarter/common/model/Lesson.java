@@ -1,18 +1,16 @@
 package com.tatocuervo.springbootstarter.common.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-public class Course {
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -22,10 +20,6 @@ public class Course {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "topic_id", referencedColumnName = "id")
-    private Topic topic;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    private List<Lesson> lessons;
+    @JoinColumn(name = "courseId", referencedColumnName = "id")
+    private Course course;
 }
