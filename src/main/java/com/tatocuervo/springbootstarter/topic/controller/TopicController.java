@@ -4,12 +4,16 @@ import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundExcepti
 import com.tatocuervo.springbootstarter.routes.Routes;
 import com.tatocuervo.springbootstarter.common.model.Topic;
 import com.tatocuervo.springbootstarter.topic.service.TopicService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = "Topics")
 @RestController
 @RequestMapping(Routes.TOPICS)
 public class TopicController {
@@ -17,20 +21,22 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
-    @GetMapping
+    @ApiOperation(value = "Get all topics")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Topic> getTopics() {
         return topicService.getAllTopics();
     }
 
 
-    @GetMapping("/{name}")
+    @ApiOperation(value = "Get topic by name")
+    @GetMapping(path="/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Topic getTopic(@PathVariable String name) throws ResourceNotFoundException {
         return topicService.getTopicByName(name);
     }
 
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addTopic(@RequestBody Topic topic) {
         topicService.addTopic(topic);
     }
