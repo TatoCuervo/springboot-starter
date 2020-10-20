@@ -15,7 +15,7 @@ import java.util.List;
 
 @Api(tags = "Topics")
 @RestController
-@RequestMapping(Routes.TOPICS)
+@RequestMapping(path = Routes.TOPICS)
 public class TopicController {
 
     @Autowired
@@ -35,12 +35,14 @@ public class TopicController {
     }
 
 
+    @ApiOperation(value = "Add new topic")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addTopic(@RequestBody Topic topic) {
         topicService.addTopic(topic);
     }
 
+    @ApiOperation(value = "Update topic")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
     public void updateTopic(@RequestBody Topic topic) {
@@ -48,8 +50,9 @@ public class TopicController {
     }
 
 
+    @ApiOperation(value = "Delete topic by name")
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/{name}")
+    @DeleteMapping(path = "/{name}")
     public void deleteTopic(@PathVariable String name) {
         topicService.deleteTopicByName(name);
     }

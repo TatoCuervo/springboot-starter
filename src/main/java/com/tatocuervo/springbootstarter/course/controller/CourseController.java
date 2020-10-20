@@ -2,20 +2,23 @@ package com.tatocuervo.springbootstarter.course.controller;
 
 import com.tatocuervo.springbootstarter.common.model.Course;
 import com.tatocuervo.springbootstarter.routes.Routes;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Api(tags = "Courses")
 @RestController
-@RequestMapping(Routes.COURSES)
+@RequestMapping(path = Routes.COURSES)
 public class CourseController {
 
     @GetMapping
     public List<Course> getAllCourses(@PathVariable String topicId) {
-        return null;
+        return new ArrayList<>();
     }
 
-    @GetMapping("/{Id}")
+    @GetMapping(path = "/{Id}")
     public Course getCourse(@PathVariable String Id) {
         return null;
     }
@@ -30,7 +33,7 @@ public class CourseController {
 
     }
 
-    @DeleteMapping("/{Id}")
+    @DeleteMapping(path = "/{Id}")
     public void deleteCourse(@PathVariable String Id) {
 
     }
