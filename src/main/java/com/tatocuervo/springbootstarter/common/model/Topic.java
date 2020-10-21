@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @Entity
 public class Topic {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

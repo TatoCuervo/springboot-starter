@@ -6,7 +6,6 @@ import com.tatocuervo.springbootstarter.topic.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +32,21 @@ public class TopicService {
         repository.save(topic);
     }
 
-    public void updateTopic(Topic updatedTopic) {
-        //TODO
+    public void updateTopic(Topic updatedTopic, long id) throws ResourceNotFoundException {
+        Optional<Topic> topic = repository.findById(id);
+        if (topic.isEmpty())
+            throw new ResourceNotFoundException(format("Topic with Id %d does not exists", id));
+
+        Topic existingTopic = topic.get();
+        existingTopic.setName(updatedTopic.getName());
+        existingTopic.setDescription(updatedTopic.getDescription());
+        repository.save(existingTopic);
     }
 
-    @Transactional //TODO: do I need this ?
-    public void deleteTopicById(long id) {
+    public void deleteTopicById(long id) throws ResourceNotFoundException {
+        Optional<Topic> topic = repository.findById(id);
+        if (topic.isEmpty())
+            throw new ResourceNotFoundException(format("Topic with Id %d does not exists", id));
         repository.deleteById(id);
     }
 }

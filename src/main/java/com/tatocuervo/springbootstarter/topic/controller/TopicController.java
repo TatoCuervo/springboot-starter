@@ -36,17 +36,17 @@ public class TopicController {
 
 
     @ApiOperation(value = "Add new topic")
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addTopic(@RequestBody Topic topic) {
         topicService.addTopic(topic);
     }
 
     @ApiOperation(value = "Update topic")
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping
-    public void updateTopic(@RequestBody Topic topic) {
-        topicService.updateTopic(topic);
+    @PutMapping(path = "/{id}")
+    public void updateTopic(@RequestBody Topic topic, @PathVariable long id) throws ResourceNotFoundException {
+        topicService.updateTopic(topic, id);
     }
 
     //TODO: add PATCH as well to partially update
@@ -55,7 +55,7 @@ public class TopicController {
     @ApiOperation(value = "Delete topic by Id")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(path = "/{id}")
-    public void deleteTopic(@PathVariable long id) {
+    public void deleteTopic(@PathVariable long id) throws ResourceNotFoundException {
         topicService.deleteTopicById(id);
     }
 
