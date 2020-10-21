@@ -15,7 +15,7 @@ import java.util.List;
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String name;
 

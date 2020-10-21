@@ -1,8 +1,8 @@
 package com.tatocuervo.springbootstarter.topic.controller;
 
 import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
-import com.tatocuervo.springbootstarter.routes.Routes;
 import com.tatocuervo.springbootstarter.common.model.Topic;
+import com.tatocuervo.springbootstarter.routes.Routes;
 import com.tatocuervo.springbootstarter.topic.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,10 +28,10 @@ public class TopicController {
     }
 
 
-    @ApiOperation(value = "Get topic by name")
-    @GetMapping(path="/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Topic getTopic(@PathVariable String name) throws ResourceNotFoundException {
-        return topicService.getTopicByName(name);
+    @ApiOperation(value = "Get topic by id")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Topic getTopic(@PathVariable long id) throws ResourceNotFoundException {
+        return topicService.getTopicById(id);
     }
 
 
@@ -49,12 +49,14 @@ public class TopicController {
         topicService.updateTopic(topic);
     }
 
+    //TODO: add PATCH as well to partially update
 
-    @ApiOperation(value = "Delete topic by name")
+
+    @ApiOperation(value = "Delete topic by Id")
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping(path = "/{name}")
-    public void deleteTopic(@PathVariable String name) {
-        topicService.deleteTopicByName(name);
+    @DeleteMapping(path = "/{id}")
+    public void deleteTopic(@PathVariable long id) {
+        topicService.deleteTopicById(id);
     }
 
 }

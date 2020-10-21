@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+
+import static java.lang.String.format;
 
 @Service
 public class TopicService {
@@ -18,8 +21,12 @@ public class TopicService {
         return repository.findAll();
     }
 
-    public Topic getTopicByName(String name) throws ResourceNotFoundException {
-        return repository.findByName(name);
+    public Topic getTopicById(long id) throws ResourceNotFoundException {
+        Optional<Topic> topic = repository.findById(id);
+        if (topic.isEmpty())
+            throw new ResourceNotFoundException(format("Topic with Id %d does not exists", id));
+
+        return topic.get();
     }
 
     public void addTopic(Topic topic) {
@@ -27,11 +34,11 @@ public class TopicService {
     }
 
     public void updateTopic(Topic updatedTopic) {
-
+        //TODO
     }
 
-    @Transactional
-    public void deleteTopicByName(String name) {
-        repository.deleteByName(name);
+    @Transactional //TODO: do I need this ?
+    public void deleteTopicById(long id) {
+        repository.deleteById(id);
     }
 }
