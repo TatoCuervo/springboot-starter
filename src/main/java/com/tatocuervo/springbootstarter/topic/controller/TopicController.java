@@ -49,9 +49,6 @@ public class TopicController {
         topicService.updateTopic(topic, id);
     }
 
-    //TODO: add PATCH as well to partially update
-
-
     @ApiOperation(value = "Delete topic by Id")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(path = "/{id}")
