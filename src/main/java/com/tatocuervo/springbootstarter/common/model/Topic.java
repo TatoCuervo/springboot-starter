@@ -23,6 +23,6 @@ public class Topic {
     private String description;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Course> courses;
 }

@@ -23,11 +23,11 @@ public class Course {
     private String description;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "topic_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "topic_id", referencedColumnName = "id", nullable = false, updatable = false)
     private Topic topic;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons;
 }

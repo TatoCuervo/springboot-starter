@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Data
 @Entity
 public class Lesson {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,7 +22,7 @@ public class Lesson {
     private String description;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "courseId", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "courseId", referencedColumnName = "id", nullable = false, updatable = false)
     private Course course;
 }
