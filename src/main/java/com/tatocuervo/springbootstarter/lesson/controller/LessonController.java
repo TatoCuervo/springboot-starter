@@ -36,21 +36,21 @@ public class LessonController {
     @ApiOperation("Creates new lesson within a course and topic")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addLesson(@PathVariable long topicId, @PathVariable long courseId, @RequestBody Lesson lesson) {
-        service.addLesson(courseId, lesson); //TODO: Do I need topicId ?
+    public void addLesson(@PathVariable long courseId, @RequestBody Lesson lesson) throws ResourceNotFoundException {
+        service.addLesson(courseId, lesson);
     }
 
     @ApiOperation("Updates a lesson within a course and topic")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id, @RequestBody Lesson lesson) {
-        //TODO
+    public void updateLesson(@PathVariable long courseId, @PathVariable long id, @RequestBody Lesson lesson) throws ResourceNotFoundException {
+        service.updateLesson(courseId, id, lesson);
     }
 
     @ApiOperation("Deletes a lesson within a course and topic")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(path = "/{id}")
-    public void deleteLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id) {
-        //TODO
+    public void deleteLesson(@PathVariable long id) throws ResourceNotFoundException {
+        service.deleteLesson(id);
     }
 }
