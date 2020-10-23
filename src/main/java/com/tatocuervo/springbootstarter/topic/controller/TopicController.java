@@ -4,6 +4,7 @@ import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundExcepti
 import com.tatocuervo.springbootstarter.common.model.Topic;
 import com.tatocuervo.springbootstarter.routes.Routes;
 import com.tatocuervo.springbootstarter.topic.dto.CreateTopicRequest;
+import com.tatocuervo.springbootstarter.topic.dto.PatchTopicRequest;
 import com.tatocuervo.springbootstarter.topic.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,9 +50,9 @@ public class TopicController {
 
     @ApiOperation(value = "Update topic")
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/{id}")
-    public void updateTopic(@RequestBody Topic topic, @PathVariable long id) throws ResourceNotFoundException {
-        topicService.updateTopic(topic, id);
+    @PatchMapping(path = "/{id}")
+    public void updateTopic(@RequestBody PatchTopicRequest patchTopicRequest, @PathVariable long id) throws ResourceNotFoundException {
+        topicService.updateTopic(conversionService.convert(patchTopicRequest, Topic.class), id);
     }
 
     @ApiOperation(value = "Delete topic by Id")
