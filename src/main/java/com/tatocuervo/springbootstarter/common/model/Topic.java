@@ -1,25 +1,26 @@
 package com.tatocuervo.springbootstarter.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Builder
+@Getter
 @Entity
 public class Topic {
-    @JsonIgnore
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Setter
     private String name;
 
+    @Setter
     private String description;
 
     @JsonIgnore

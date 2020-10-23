@@ -2,6 +2,7 @@ package com.tatocuervo.springbootstarter.topic.service;
 
 import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
 import com.tatocuervo.springbootstarter.common.model.Topic;
+import com.tatocuervo.springbootstarter.topic.dto.CreateTopicRequest;
 import com.tatocuervo.springbootstarter.topic.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
