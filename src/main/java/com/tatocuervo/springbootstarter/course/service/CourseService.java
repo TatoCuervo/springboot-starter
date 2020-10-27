@@ -22,8 +22,13 @@ public class CourseService {
     @Autowired
     private TopicRepository topicRepository;
 
-    public List<Course> getCoursesByTopic(long topicId) {
+    public List<Course> getCoursesByTopic(long topicId) throws ResourceNotFoundException {
+        Optional<Topic> optional = topicRepository.findById(topicId);
+        if (optional.isEmpty())
+            throw new ResourceNotFoundException(format("Topic with id %d does nto exist", topicId));
+
         return courseRepository.findByTopicId(topicId);
+
     }
 
     public Course getCourseById(long topicId, long id) throws ResourceNotFoundException {

@@ -2,6 +2,7 @@ package com.tatocuervo.springbootstarter.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,10 +11,11 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 @Entity
 public class Course {
-    @JsonIgnore
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
