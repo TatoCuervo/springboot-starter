@@ -2,11 +2,14 @@ package com.tatocuervo.springbootstarter.lesson.controller;
 
 import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
 import com.tatocuervo.springbootstarter.common.model.Lesson;
+import com.tatocuervo.springbootstarter.lesson.dto.CreateLessonRequest;
+import com.tatocuervo.springbootstarter.lesson.dto.PatchLessonRequest;
 import com.tatocuervo.springbootstarter.lesson.service.LessonService;
 import com.tatocuervo.springbootstarter.routes.Routes;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,9 @@ public class LessonController {
 
     @Autowired
     private LessonService service;
+
+    @Autowired
+    private ConversionService conversionService;
 
     @ApiOperation(value = "Get all lessons within a course")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,15 +42,15 @@ public class LessonController {
     @ApiOperation("Creates new lesson within a course and topic")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addLesson(@PathVariable long courseId, @RequestBody Lesson lesson) throws ResourceNotFoundException {
-        service.addLesson(courseId, lesson);
+    public void addLesson(@PathVariable long courseId, @RequestBody CreateLessonRequest createLessonRequest) throws ResourceNotFoundException {
+        service.addLesson(courseId, conversionService.convert(createLessonRequest, Lesson.class));
     }
 
     @ApiOperation("Updates a lesson within a course and topic")
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateLesson(@PathVariable long courseId, @PathVariable long id, @RequestBody Lesson lesson) throws ResourceNotFoundException {
-        service.updateLesson(courseId, id, lesson);
+    @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateLesson(@PathVariable long courseId, @PathVariable long id, @RequestBody PatchLessonRequest patchLessonRequest) throws ResourceNotFoundException {
+        service.updateLesson(courseId, id, conversionService.convert(patchLessonRequest, Lesson.class));
     }
 
     @ApiOperation("Deletes a lesson within a course and topic")
