@@ -72,11 +72,15 @@ public class LessonService {
         lessonRepository.save(existingLesson);
     }
 
-    public void deleteLesson(long id) throws ResourceNotFoundException {
-        Optional<Lesson> optional = lessonRepository.findById(id);
+    public void deleteLesson(long topicId, long courseId, long id) throws ResourceNotFoundException {
+        Optional<Course> optional = courseRepository.findByIdAndTopicId(courseId, topicId);
         if (optional.isEmpty())
-            throw new ResourceNotFoundException(format("Lesson with id %d and does not exists", id));
+            throw new ResourceNotFoundException(format("Course with id %d and topic id %d does not exists", courseId, topicId));
 
-        lessonRepository.delete(optional.get());
+        Lesson lesson = lessonRepository.findByIdAndCourseId(id, courseId);
+        if (lesson == null)
+            throw new ResourceNotFoundException(format("Lesson with id %d and courseId %d does not exists", id, courseId));
+
+        lessonRepository.delete(lesson);
     }
 }

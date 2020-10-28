@@ -56,7 +56,7 @@ public class LessonController {
     @ApiOperation("Deletes a lesson within a course and topic")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(path = "/{id}")
-    public void deleteLesson(@PathVariable long id) throws ResourceNotFoundException {
-        service.deleteLesson(id);
+    public void deleteLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id) throws ResourceNotFoundException {
+        service.deleteLesson(topicId, courseId, id);
     }
 }
