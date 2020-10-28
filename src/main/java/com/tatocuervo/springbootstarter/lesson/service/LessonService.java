@@ -22,11 +22,19 @@ public class LessonService {
     @Autowired
     private CourseRepository courseRepository;
 
-    public List<Lesson> getLessonsByCourse(long courseId) {
+    public List<Lesson> getLessonsByCourse(long topicId, long courseId) throws ResourceNotFoundException {
+        Optional<Course> optional = courseRepository.findByIdAndTopicId(courseId, topicId);
+        if (optional.isEmpty())
+            throw new ResourceNotFoundException(format("Course with id %d and topic id %d does not exists", courseId, topicId));
+
         return lessonRepository.findAllByCourseId(courseId);
     }
 
-    public Lesson getLessonById(long courseId, long id) throws ResourceNotFoundException {
+    public Lesson getLessonById(long topicId, long courseId, long id) throws ResourceNotFoundException {
+        Optional<Course> optional = courseRepository.findByIdAndTopicId(courseId, topicId);
+        if (optional.isEmpty())
+            throw new ResourceNotFoundException(format("Course with id %d and topic id %d does not exists", courseId, topicId));
+
         Lesson lesson = lessonRepository.findByIdAndCourseId(id, courseId);
         if (lesson == null)
             throw new ResourceNotFoundException(format("Lesson with id %d and courseId %d does not exists", id, courseId));
@@ -34,16 +42,26 @@ public class LessonService {
         return lesson;
     }
 
-    public void addLesson(long courseId, Lesson lesson) throws ResourceNotFoundException {
-        Optional<Course> optional = courseRepository.findById(courseId);
+    public void addLesson(long topicId, long courseId, Lesson lesson) throws ResourceNotFoundException {
+
+        Optional<Course> optional = courseRepository.findByIdAndTopicId(courseId, topicId);
         if (optional.isEmpty())
+            throw new ResourceNotFoundException(format("Course with id %d and topic id %d does not exists", courseId, topicId));
+
+        Optional<Course> parentCourse = courseRepository.findById(courseId);
+        if (parentCourse.isEmpty())
             throw new ResourceNotFoundException(format("Course with id %d does not exists", courseId));
 
-        lesson.setCourse(optional.get());
+        lesson.setCourse(parentCourse.get());
         lessonRepository.save(lesson);
     }
 
-    public void updateLesson(long courseId, long id, Lesson lesson) throws ResourceNotFoundException {
+    public void updateLesson(long topicId, long courseId, long id, Lesson lesson) throws ResourceNotFoundException {
+
+        Optional<Course> optional = courseRepository.findByIdAndTopicId(courseId, topicId);
+        if (optional.isEmpty())
+            throw new ResourceNotFoundException(format("Course with id %d and topic id %d does not exists", courseId, topicId));
+
         Lesson existingLesson = lessonRepository.findByIdAndCourseId(id, courseId);
         if (existingLesson == null)
             throw new ResourceNotFoundException(format("Lesson with id %d and courseId %d does not exists", id, courseId));
