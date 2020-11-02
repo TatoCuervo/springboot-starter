@@ -1,6 +1,5 @@
 package com.tatocuervo.springbootstarter.lesson.controller;
 
-import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
 import com.tatocuervo.springbootstarter.common.model.Lesson;
 import com.tatocuervo.springbootstarter.lesson.dto.CreateLessonRequest;
 import com.tatocuervo.springbootstarter.lesson.dto.PatchLessonRequest;
@@ -29,34 +28,34 @@ public class LessonController {
 
     @ApiOperation(value = "Get all lessons within a course")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Lesson> getLessons(@PathVariable long topicId, @PathVariable long courseId) throws ResourceNotFoundException {
-        return service.getLessonsByCourse(topicId, courseId);
+    public List<Lesson> getLessons(@PathVariable long topicId, @PathVariable long courseId) {
+        return service.getLessonsByTopicAndCourse(topicId, courseId);
     }
 
     @ApiOperation("Get lesson within a course and topic")
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Lesson getLessonById(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id) throws ResourceNotFoundException {
+    public Lesson getLessonById(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id) {
         return service.getLessonById(topicId, courseId, id);
     }
 
     @ApiOperation("Creates new lesson within a course and topic")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addLesson(@PathVariable long topicId, @PathVariable long courseId, @RequestBody CreateLessonRequest createLessonRequest) throws ResourceNotFoundException {
+    public void addLesson(@PathVariable long topicId, @PathVariable long courseId, @RequestBody CreateLessonRequest createLessonRequest) {
         service.addLesson(topicId, courseId, conversionService.convert(createLessonRequest, Lesson.class));
     }
 
     @ApiOperation("Updates a lesson within a course and topic")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id, @RequestBody PatchLessonRequest patchLessonRequest) throws ResourceNotFoundException {
+    public void updateLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id, @RequestBody PatchLessonRequest patchLessonRequest) {
         service.updateLesson(topicId, courseId, id, conversionService.convert(patchLessonRequest, Lesson.class));
     }
 
     @ApiOperation("Deletes a lesson within a course and topic")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(path = "/{id}")
-    public void deleteLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id) throws ResourceNotFoundException {
+    public void deleteLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id) {
         service.deleteLesson(topicId, courseId, id);
     }
 }

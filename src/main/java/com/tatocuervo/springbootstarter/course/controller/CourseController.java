@@ -1,6 +1,5 @@
 package com.tatocuervo.springbootstarter.course.controller;
 
-import com.tatocuervo.springbootstarter.common.exception.ResourceNotFoundException;
 import com.tatocuervo.springbootstarter.common.model.Course;
 import com.tatocuervo.springbootstarter.course.dto.CreateCourseRequest;
 import com.tatocuervo.springbootstarter.course.dto.PatchCourseRequest;
@@ -29,27 +28,27 @@ public class CourseController {
 
     @ApiOperation(value = "Get all courses within a topic")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Course> getAllCoursesByTopic(@PathVariable long topicId) throws ResourceNotFoundException {
+    public List<Course> getAllCoursesByTopic(@PathVariable long topicId) {
         return service.getCoursesByTopic(topicId);
     }
 
     @ApiOperation(value = "Get a course by id within a topic")
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Course getCourse(@PathVariable long topicId, @PathVariable long id) throws ResourceNotFoundException {
+    public Course getCourse(@PathVariable long topicId, @PathVariable long id) {
         return service.getCourseById(topicId, id);
     }
 
     @ApiOperation(value = "Creates new Course for within topic")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void addCourse(@PathVariable long topicId, @RequestBody CreateCourseRequest createCourseRequest) throws ResourceNotFoundException {
+    public void addCourse(@PathVariable long topicId, @RequestBody CreateCourseRequest createCourseRequest) {
         service.addCourse(conversionService.convert(createCourseRequest, Course.class), topicId);
     }
 
     @ApiOperation(value = "Updates course within a topic")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping(path = "/{id}")
-    public void patchCourse(@PathVariable long topicId, @PathVariable long id, @RequestBody PatchCourseRequest patchCourseRequest) throws ResourceNotFoundException {
+    public void patchCourse(@PathVariable long topicId, @PathVariable long id, @RequestBody PatchCourseRequest patchCourseRequest) {
         Course updatedCourse = conversionService.convert(patchCourseRequest, Course.class);
         service.updateCourse(topicId, updatedCourse, id);
     }
@@ -57,7 +56,7 @@ public class CourseController {
     @ApiOperation(value = "Delete a course by id")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(path = "/{id}")
-    public void deleteCourse(@PathVariable long topicId, @PathVariable long id) throws ResourceNotFoundException {
+    public void deleteCourse(@PathVariable long topicId, @PathVariable long id) {
         service.deleteCourseById(topicId, id);
     }
 }
