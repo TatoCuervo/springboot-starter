@@ -7,17 +7,14 @@ import com.tatocuervo.springbootstarter.common.jwt.JwtUtil;
 import com.tatocuervo.springbootstarter.routes.Routes;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "Authentication")
 @RestController
@@ -33,11 +30,12 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public AuthenticationResponse createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
 
         // verify credentials are valid, throw exception otherwise
-        Authentication authentication = authenticate(authenticationRequest);
+        authenticate(authenticationRequest);
 
         // retrieve user details
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
@@ -45,12 +43,12 @@ public class AuthController {
         // generate jwt token
         String jwt = jwtUtil.generateToken(userDetails);
 
-        return new AuthenticationResponse((jwt));
+        return new AuthenticationResponse(jwt);
     }
 
-    private Authentication authenticate(AuthenticationRequest authenticationRequest) {
+    private void authenticate(AuthenticationRequest authenticationRequest) {
         try {
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                     authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
             throw new InvalidUserCredentialsException();

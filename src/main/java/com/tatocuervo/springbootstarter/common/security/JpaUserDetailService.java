@@ -28,7 +28,6 @@ public class JpaUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         AppUser appUser = userRepository.findByUsername(s);
 
-        //TODO: user is found but when & how does the password get validated? does it ??
         if (appUser == null) {
             throw new UsernameNotFoundException(format("User with name %s does nos exists", s));
         }

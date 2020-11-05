@@ -1,12 +1,17 @@
 package com.tatocuervo.springbootstarter.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 public class AuthenticationResponse {
-    private String jwtToken;
+    private final String jwtToken;
 
     @JsonCreator
-    public AuthenticationResponse(String jwtToken) {
+    public AuthenticationResponse(@JsonProperty String jwtToken) {
         this.jwtToken = jwtToken;
     }
 }

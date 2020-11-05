@@ -35,7 +35,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers(buildPublicRoutes()).permitAll()
-                .mvcMatchers(buildPrivateRoutes()).authenticated(); // TODO: currently returns login page, should be 403
+                .mvcMatchers(buildPrivateRoutes()).authenticated();
         //TODO: try matching ROLE
     }
 
