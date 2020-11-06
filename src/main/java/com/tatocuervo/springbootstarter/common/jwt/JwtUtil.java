@@ -19,6 +19,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
+    public static final String JWT_TOKEN_PREFIX = "Bearer ";
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     @Value("jwt.secret")
@@ -48,17 +49,8 @@ public class JwtUtil {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-    public Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
-    }
-
-    private boolean isTokenExpired(String token) {
-        return getExpirationDateFromToken(token).before(new Date());
-    }
-
-    //TODO: do I need this to verify token is valid ??
-    public boolean validateToken(String token, UserDetails userDetails) {
-        String usernameFromToken = getUsernameFromToken(token);
-        return usernameFromToken.equalsIgnoreCase(userDetails.getUsername()) && !isTokenExpired(token);
+    public boolean validateToken(String token) {
+        Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+        return true;
     }
 }

@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * Global exception handler
+ */
+
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -17,6 +21,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = InvalidUserCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleInvalidUserCredentialsException(InvalidUserCredentialsException invalidUserCredentialsException) {
         return buildResponseEntity(invalidUserCredentialsException.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    public ResponseEntity<ErrorResponse> handleInvalidJwtTokenException(InvalidJwtTokenException invalidJwtTokenException) {
+        return buildResponseEntity(invalidJwtTokenException.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     private ResponseEntity<ErrorResponse> buildResponseEntity(String message, HttpStatus status) {

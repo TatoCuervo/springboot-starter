@@ -1,5 +1,6 @@
 package com.tatocuervo.springbootstarter.common.security;
 
+import com.tatocuervo.springbootstarter.common.security.filter.JwtRequestFilter;
 import com.tatocuervo.springbootstarter.routes.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,8 +9,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static java.lang.String.format;
 
@@ -18,6 +21,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JpaUserDetailService jpaUserDetailService;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,8 +41,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers(buildPublicRoutes()).permitAll()
-                .mvcMatchers(buildPrivateRoutes()).authenticated();
-        //TODO: try matching ROLE
+                .mvcMatchers(buildPrivateRoutes()).authenticated() //TODO: try matching ROLE
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // use stateless session
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // set jwt request filter
     }
 
     private String[] buildPublicRoutes() {
