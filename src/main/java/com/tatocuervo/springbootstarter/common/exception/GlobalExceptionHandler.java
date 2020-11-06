@@ -23,13 +23,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(invalidUserCredentialsException.getMessage(), HttpStatus.FORBIDDEN);
     }
 
-    public ResponseEntity<ErrorResponse> handleInvalidJwtTokenException(InvalidJwtTokenException invalidJwtTokenException) {
-        return buildResponseEntity(invalidJwtTokenException.getMessage(), HttpStatus.UNAUTHORIZED);
-    }
-
     private ResponseEntity<ErrorResponse> buildResponseEntity(String message, HttpStatus status) {
         ErrorResponse errorMessage = new ErrorResponse(message);
         return new ResponseEntity<>(errorMessage, status);
     }
-
 }

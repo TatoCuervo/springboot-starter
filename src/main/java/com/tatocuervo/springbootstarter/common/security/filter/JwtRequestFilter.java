@@ -1,10 +1,10 @@
 package com.tatocuervo.springbootstarter.common.security.filter;
 
-import com.tatocuervo.springbootstarter.common.exception.InvalidJwtTokenException;
 import com.tatocuervo.springbootstarter.common.jwt.JwtUtil;
 import com.tatocuervo.springbootstarter.common.security.JpaUserDetailService;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,7 +51,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
             } catch (JwtException | IllegalArgumentException e) {
                 SecurityContextHolder.clearContext();
-                throw new InvalidJwtTokenException("Provided JWT token is invalid or expired");
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Provided JWT token is invalid or expired");
+                return;
             }
         }
         // resume filters chain execution
