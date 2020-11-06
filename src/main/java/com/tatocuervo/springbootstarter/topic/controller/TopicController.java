@@ -6,6 +6,7 @@ import com.tatocuervo.springbootstarter.topic.dto.CreateTopicRequest;
 import com.tatocuervo.springbootstarter.topic.dto.PatchTopicRequest;
 import com.tatocuervo.springbootstarter.topic.service.TopicService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
@@ -28,6 +29,7 @@ public class TopicController {
 
     @ApiOperation(value = "Get all topics")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public List<Topic> getTopics() {
         return topicService.getAllTopics();
     }
@@ -35,6 +37,7 @@ public class TopicController {
 
     @ApiOperation(value = "Get topic by id")
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public Topic getTopic(@PathVariable long id) {
         return topicService.getTopicById(id);
     }
@@ -43,6 +46,7 @@ public class TopicController {
     @ApiOperation(value = "Add new topic")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public void addTopic(@RequestBody CreateTopicRequest createTopicRequest) {
         topicService.addTopic(conversionService.convert(createTopicRequest, Topic.class));
     }
@@ -50,6 +54,7 @@ public class TopicController {
     @ApiOperation(value = "Update topic")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping(path = "/{id}")
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public void updateTopic(@RequestBody PatchTopicRequest patchTopicRequest, @PathVariable long id) {
         topicService.updateTopic(conversionService.convert(patchTopicRequest, Topic.class), id);
     }
@@ -57,6 +62,7 @@ public class TopicController {
     @ApiOperation(value = "Delete topic by Id")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(path = "/{id}")
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public void deleteTopic(@PathVariable long id) {
         topicService.deleteTopicById(id);
     }

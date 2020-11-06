@@ -6,6 +6,7 @@ import com.tatocuervo.springbootstarter.lesson.dto.PatchLessonRequest;
 import com.tatocuervo.springbootstarter.lesson.service.LessonService;
 import com.tatocuervo.springbootstarter.routes.Routes;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
@@ -28,12 +29,14 @@ public class LessonController {
 
     @ApiOperation(value = "Get all lessons within a course")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public List<Lesson> getLessons(@PathVariable long topicId, @PathVariable long courseId) {
         return service.getLessonsByTopicAndCourse(topicId, courseId);
     }
 
     @ApiOperation("Get lesson within a course and topic")
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public Lesson getLessonById(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id) {
         return service.getLessonById(topicId, courseId, id);
     }
@@ -41,6 +44,7 @@ public class LessonController {
     @ApiOperation("Creates new lesson within a course and topic")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public void addLesson(@PathVariable long topicId, @PathVariable long courseId, @RequestBody CreateLessonRequest createLessonRequest) {
         service.addLesson(topicId, courseId, conversionService.convert(createLessonRequest, Lesson.class));
     }
@@ -48,6 +52,7 @@ public class LessonController {
     @ApiOperation("Updates a lesson within a course and topic")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public void updateLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id, @RequestBody PatchLessonRequest patchLessonRequest) {
         service.updateLesson(topicId, courseId, id, conversionService.convert(patchLessonRequest, Lesson.class));
     }
@@ -55,6 +60,7 @@ public class LessonController {
     @ApiOperation("Deletes a lesson within a course and topic")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(path = "/{id}")
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     public void deleteLesson(@PathVariable long topicId, @PathVariable long courseId, @PathVariable long id) {
         service.deleteLesson(topicId, courseId, id);
     }
